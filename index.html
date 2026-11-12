@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OJOL SUDIANG KOMUNITAS</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#00A651">
+<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,Arial;background:#f2f4f3;padding-bottom:95px}header{background:#00A651;color:#fff;padding:16px;position:sticky;top:0}header h1{margin:0;font-size:20px}.wrap{padding:14px;max-width:640px;margin:auto}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.06)}.kpi{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kpi div{background:#e9f9ef;border-radius:12px;padding:12px}.kpi b{font-size:18px;display:block}.pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700}.green{background:#d6f5e0;color:#0a6b2e}.red{background:#ffe2e2;color:#9b1111}.grey{background:#eee;color:#555}.bar{height:12px;background:#eee;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:#00A651}input{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin:6px 0;font-size:15px}button{border:0;border-radius:12px;padding:12px;font-weight:700;cursor:pointer}button:disabled{opacity:.45}.btn{background:#00A651;color:#fff;width:100%}.btn2{background:#111;color:#fff}.btn-red{background:#ff3b30;color:#fff}.row{display:flex;gap:8px}.row>*{flex:1}.check{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed #eee}.past-card{padding:10px 14px !important;display:flex;align-items:center;gap:10px;cursor:pointer}.past-card .bar{flex:1}.past-card h3{margin:0;font-size:14px}.past-card .mini{font-size:12px;color:#666;white-space:nowrap}.check input{width:20px;height:20px;accent-color:#00A651}.tabs{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #ddd}.tabs button{flex:1;background:#fff;color:#666;padding:12px 4px}.tabs button.active{color:#00A651;border-top:3px solid #00A651}.hidden{display:none}.chat-msg{padding:8px 12px;margin:6px 0;background:#f1f1f1;border-radius:12px}.chat-msg.me{background:#d6f5e0}.tier-S{background:#FFD700;color:#111}.tier-A{background:#00A651;color:#fff}.tier-B{background:#2196F3;color:#fff}.tier-C{background:#FF9800;color:#fff}.tier-D{background:#ff3b30;color:#fff}.auth-box{max-width:420px;margin:40px auto;text-align:center}.auth-box input{margin:8px 0}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:8px;border-bottom:1px solid #eee;text-align:left}.big{font-size:28px;font-weight:800}.week-card{border-left:4px solid #00A651}.month-card{border-left:4px solid #111}.muted{color:#666;font-size:13px}code{background:#eee;padding:2px 6px;border-radius:6px}
+</style></head>
+<body><header><h1>🛵 OJOL SUDIANG KOMUNITAS</h1><p style="margin:4px 0 0;font-size:13px;opacity:.9"><span id="headerMonth"></span> • Bike+Food • 08.00-22.00 • <span id="conn">Menghubungkan...</span></p></header>
+<div class="wrap">
+<div id="authBox" class="card auth-box">
+<h2>OJOL SUDIANG KOMUNITAS</h2>
+<select id="authPlatform" onchange="this.style.border='1px solid #ddd';document.getElementById('authMsg').innerText=''" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:8px 0"><option value="" disabled selected>-- Wajib Pilih Mitra Kamu --</option><option value="Grab">Grab</option><option value="Gojek">Gojek</option></select>
+<input id="authUsername" type="text" placeholder="Username, contoh: @nama_sudiang" maxlength="20"><input id="authEmail" type="email" placeholder="Email">
+<input id="authPass" type="password" placeholder="Password">
+<div class="row"><button class="btn" id="btnEmailAction" onclick="doLogin()">Masuk</button><button class="btn2" onclick="showAuthTab('signup')">Daftar</button></div>
+<div style="text-align:center;margin:12px 0;color:#999;font-size:12px">atau</div>
+<button onclick="doGoogle()" style="width:100%;background:#fff;border:1px solid #ddd;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer"><svg width="22" height="22" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.7-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.5 6.1 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.4 0 10.3-2.1 13.9-5.5l-6.4-5.4C29.2 34.9 26.7 36 24 36c-5.2 0-9.5-3.3-11.3-8l-6.5 5C9.7 39.7 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.4l6.4 5.4C39.7 36.6 44 30.7 44 24c0-1.3-.1-2.7-.4-3.9z"/></svg><span style="font-weight:700;color:#111">Lanjutkan dengan Google</span></button>
+<p id="authMsg" class="muted"></p>
+</div>
+<div id="appMain" class="hidden">
+<div class="card" style="display:flex;justify-content:space-between;align-items:center"><span>👤 <b id="userEmail"></b> <span id="userPlatformBadge" class="pill green">Grab</span> <span id="userVerifyBadge" class="pill grey">⏳ Belum Verifikasi</span> <span id="userTierBadge" class="pill grey">-</span> <small id="userCode" style="color:#666"></small><button id="btnChangeUsername" style="display:none;background:#fff;border:1px solid #00A651;color:#00A651;border-radius:20px;padding:4px 10px;font-size:11px;cursor:pointer;margin-left:6px" onclick="changeUsernameOnce()">✏️ Ganti Username (1x)</button></span><button class="btn-red" style="padding:8px 12px" onclick="doLogout()">Keluar</button></div>
+<div id="setup" class="card" style="display:none !important"><h2>⚙️ Setting Firebase - Sekali Saja</h2></div>
+<div id="tab-strategi"><div class="card"><h2>🎯 Target Harian</h2><div class="kpi"><div><b>18 Order</b><span>Target / hari</span></div><div><b>Rp 179.500</b><span>Kotor / hari</span></div><div><b>Rp 100.000</b><span>Bersih / hari</span></div><div><b>Rp 2.600.000</b><span>Bersih / 26 hari</span></div></div></div>
+<div class="card"><h2>📅 Jadwal 08.00-22.00</h2><p><b>08.00</b> Cek motor, bensin, helm, tas Food, saldo<br><b>08.00-10.00</b> Bike Sudiang - Bumi Sudiang Raya, Pajjaiang, Goa Ria<br><b>10.00-13.30</b> Food Full - Aneka Kuliner, Dapoer 167, Padang Pajjaiang<br><b>13.30-15.00</b> Istirahat<br><b>15.00-19.00</b> Bike+Food - Perintis, Daya<br><b>19.00-22.00</b> Food Malam - Planet Sudiang<br><b>22.00</b> OFF + catat penghasilan</p></div>
+<div class="card"><h2>⚠️ Aturan Emas</h2><p>• Jangan cancel • Jangan mangkal di Bandara untuk Bike • Jangan tuyul / fake GPS • Kalau resto antri, chat customer • Kalau 25 menit tidak bunyi, geser 500m-1km</p><!-- setting firebase dihapus --></div></div>
+<div id="tab-ceklis" class="hidden"><div class="card"><h2>📋 Ceklis Harian - <span id="ceklisPlatform">Grab</span></h2><p class="muted" id="ceklisPlatformHint">Fokus Grab: GrabBike + GrabFood</p><div id="summary"></div></div><div id="days"></div></div>
+<div id="tab-total" class="hidden">
+<div class="card"><h2>💰 Modal Awal - Pecah Dompet</h2>
+<label>💵 Pendapatan Cash (dibayar tunai customer)</label><input id="pendapatanCash" type="number" placeholder="0">
+<label>📱 Pendapatan QRIS</label><input id="pendapatanQris" type="number" placeholder="0">
+<label>💳 Pendapatan Non-Tunai (Transfer / OVO / masuk Dompet)</label><input id="pendapatanNonTunai" type="number" placeholder="0">
+<label>Total Potongan Hari Ini (Rp) - motong Dompet Kredit</label><input id="potongan" type="number" placeholder="0">
+<button class="btn" onclick="saveTodayMoneyDetail()">Simpan Pendapatan Hari Ini</button><p id="todayMoneyInfo" class="muted"></p></div>
+
+<div class="card"><h2>💸 Pengeluaran Hari Ini - Pecah Tunai / Non-Tunai</h2>
+<div class="row"><input id="expName" placeholder="Bensin / Makan / Kuota"><input id="expAmt" type="number" placeholder="Rp"></div>
+<label>Bayar pake apa?</label><select id="expType" style="width:100%;padding:11px;border:1px solid #ddd;border-radius:10px"><option value="cash">💵 Tunai / Cash</option><option value="nontunai">📱 Non-Tunai / OVO / Transfer</option></select>
+<button class="btn2" style="width:100%;margin-top:8px" onclick="addExp()">+ Tambah Pengeluaran</button><div id="expList"></div></div>
+
+<div class="card"><h2>🔄 Pengisian Saldo Customer</h2>
+<div class="row"><input id="topupName" placeholder="Nama customer / OVO siapa"><input id="topupAmt" type="number" placeholder="Nominal Rp"></div>
+<div class="row"><select id="topupJenis" style="flex:1;padding:11px;border:1px solid #ddd;border-radius:10px"><option value="OVO">OVO</option><option value="Rekening">Rekening / Transfer Bank</option><option value="DANA">DANA</option><option value="GoPay">GoPay</option><option value="ShopeePay">ShopeePay</option></select><select id="topupDari" style="flex:1;padding:11px;border:1px solid #ddd;border-radius:10px"><option value="cash">Diambil dari Cash</option><option value="nontunai">Diambil dari Non-Tunai</option><option value="kredit">Diambil dari Dompet Kredit</option></select></div>
+<button class="btn2" style="width:100%;margin-top:8px" onclick="addTopup()">+ Tambah Pengisian Customer</button><div id="topupList"></div></div>
+
+<div class="card"><h2>👛 Saldo Hari Ini - Termanagemen</h2><div id="walletSummary"></div></div>
+
+<div class="card"><h2>📈 Grafik Pendapatan - 14 Hari Terakhir</h2><canvas id="chartPendapatan" width="600" height="220" style="width:100%;height:220px;background:#f9f9f9;border-radius:12px"></canvas><p id="chartInfo" class="muted"></p></div>
+<div class="card"><h2>📥 Backup / Export</h2></div>
+</div>
+<div id="tab-mingguan" class="hidden">
+<div class="card"><h2>📅 Rekap Mingguan</h2><div id="rekap"></div><div id="weeklyList"></div></div>
+</div>
+<div id="tab-bulanan" class="hidden">
+<div class="card"><h2>📆 Rekap Bulanan</h2><div id="monthlyList"></div><div id="allTimeTotals"></div></div>
+</div>
+<div id="tab-chat" class="hidden"><div id="unverifiedBanner" style="display:none" class="card"><b>📧 Email kamu belum terverifikasi</b><p class="muted">Kamu masih bisa baca chat & lihat tier, tapi belum bisa kirim chat & belum masuk leaderboard.</p><button class="btn" onclick="showVerifyPopup(currentUser?currentUser.email:'')">Cek Email / Kirim Ulang</button></div>
+<div class="card"><h2>💬 Chat Sesama Ojol Sudiang</h2><p class="muted">Semua user bisa lihat & balas.</p><div id="chatList" style="max-height:360px;overflow-y:auto;min-height:120px"></div><div class="row" style="margin-top:10px"><input id="chatInput" placeholder="Tulis pesan..."><button class="btn2" style="flex:0 0 80px" onclick="sendChat()">Kirim</button></div><p id="chatStatus" class="muted"></p></div>
+</div>
+<div id="tab-tier" class="hidden">
+<div class="card"><h2>🏆 Tier Kamu</h2><div id="tierCard"></div></div>
+<div class="card"><h2>🪪 Verifikasi Driver</h2><p class="muted">Status: <b id="verifyStatusText">-</b></p><input id="verifyProof" placeholder="Link bukti screenshot Grab Driver / GoPartner"><button class="btn" onclick="submitVerify()">Kirim Bukti Verifikasi</button><p id="verifyMsg" class="muted"></p></div>
+<div class="card"><h2>📊 Cara Hitung Tier</h2><p><b>Persentase = Checklist tercentang / Total checklist bulan itu x 100%</b></p><p>🥇 S 90-100% • 🥈 A 75-89% • 🥉 B 60-74% • ⚠️ C 40-59% • 😴 D 0-39%</p></div>
+<div class="card"><h2>🏆 Top Tier Bulan Ini - Leaderboard</h2><div id="leaderboard"></div></div>
+<div class="card"><h2>📅 Riwayat Tier Per Bulan</h2><div id="tierHistory"></div></div>
+</div>
+</div>
+<nav class="tabs"><button id="tb1" class="active" onclick="showTab('strategi')">📖<br>Strategi</button><button id="tb2" onclick="showTab('ceklis')">✅<br>Ceklis Harian</button><button id="tb3" onclick="showTab('total')">💰<br>Total</button><button id="tb4" onclick="showTab('mingguan')">📅<br>Mingguan</button><button id="tb5" onclick="showTab('bulanan')">📆<br>Bulanan</button><button id="tb6" onclick="showTab('chat')">💬<br>Chat</button><button id="tb7" onclick="showTab('tier')">🏆<br>Tier</button></nav>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,doc,getDoc,setDoc,onSnapshot,collection,addDoc,query,orderBy,limit,serverTimestamp,getDocs,where} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,GoogleAuthProvider,signInWithPopup,sendEmailVerification} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const CHECKS_GRAB=["08.00 Cek motor, bensin, helm, tas GrabFood, saldo dompet Grab","08.00-10.00 ON GrabBike, keliling Sudiang (Bumi Sudiang Raya - Pajjaiang - Goa Ria)","10.00-13.30 Mode GrabFood Full, mangkal Aneka Kuliner / Dapoer 167 / Padang Pajjaiang","13.30-15.00 Istirahat, isi bensin, makan, cek motor","15.00-19.00 Mode GrabBike+GrabFood, geser Perintis - Daya, tahan 10 menit setelah antar","19.00-22.00 Mode GrabFood Malam, balik Sudiang, Planet Sudiang / Warkop","22.00 OFF + catat order Grab, kotor, bensin, bersih hari ini","Target Grab: 18 order, kotor Rp 179.500, bersih Rp 100.000"];
+const CHECKS_GOJEK=["08.00 Cek motor, bensin, helm, tas GoFood, saldo GoPay / GoPartner","08.00-10.00 ON GoRide, keliling Sudiang (Bumi Sudiang Raya - Pajjaiang - Goa Ria)","10.00-13.30 Mode GoFood Full, mangkal Aneka Kuliner / Dapoer 167 / Padang Pajjaiang","13.30-15.00 Istirahat, isi bensin, makan, cek motor","15.00-19.00 Mode GoRide+GoFood, geser Perintis - Daya, tahan 10 menit setelah antar","19.00-22.00 Mode GoFood Malam, balik Sudiang, Planet Sudiang / Warkop","22.00 OFF + catat order Gojek, kotor, bensin, bersih hari ini","Target Gojek: 18 order, kotor Rp 179.500, bersih Rp 100.000"];
+let CHECKS=CHECKS_GRAB;
+function setChecksForPlatform(plat){ CHECKS = (plat==='Gojek') ? CHECKS_GOJEK : CHECKS_GRAB; }
+let DB={days:{},modal:0};
+function curYM(){let n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')}
+function daysInCurMonth(){let n=new Date();return new Date(n.getFullYear(),n.getMonth()+1,0).getDate()}
+function monthLabel(){let n=new Date();return n.toLocaleDateString('id-ID',{month:'long',year:'numeric'})}
+function dayKey(d){return curYM()+'-'+String(d).padStart(2,'0')} let db=null, docRef=null, useFirebase=false;
+try{ if(localStorage.getItem('ojol_firebase_cfg') && localStorage.getItem('ojol_firebase_cfg').includes('grab-sudiang')) localStorage.removeItem('ojol_firebase_cfg'); }catch(e){} let savedCfg={apiKey:"AIzaSyAHiwmAWYk0Mgye3V12ny9raoIstaTYTdg",authDomain:"ojol-sudiang-komunitas.firebaseapp.com",projectId:"ojol-sudiang-komunitas",storageBucket:"ojol-sudiang-komunitas.firebasestorage.app",messagingSenderId:"123342138867",appId:"1:123342138867:web:5ae834aa1802beec943686"}; localStorage.setItem('ojol_firebase_cfg', JSON.stringify(savedCfg));
+function fmt(n){return 'Rp '+(n||0).toLocaleString('id-ID')}
+function todayStr(){let n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}
+function dayData(d){let k=dayKey(d);if(!DB.days[k])DB.days[k]={checks:[],libur:false,pendapatan:0,potongan:0,pengeluaran:[]};return DB.days[k]}
+async function persist(){if(useFirebase&&docRef){await setDoc(docRef,{data:JSON.stringify(DB)},{merge:true})}else{localStorage.setItem('grab_sudiang_local',JSON.stringify(DB))}}
+let auth=null, currentUser=null;
+function getDeviceId(){let id=localStorage.getItem('grab_device_id');if(!id){id='dev_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,9);localStorage.setItem('grab_device_id',id);}return id;}
+async function checkDeviceLimit(uid, email){
+  try{
+    let devId=getDeviceId();
+    let devRef=doc(db,'devices',devId);
+    let s=await getDoc(devRef);
+    let uids = s.exists() ? (s.data().uids||[]) : [];
+    // if this uid already registered, allow
+    if(uids.includes(uid)) return true;
+    if(uids.length>=2){
+      return false;
+    }
+    // register this uid to this device
+    uids.push(uid);
+    await setDoc(devRef,{uids:uids, emails: [...(s.exists()?(s.data().emails||[]):[]), email], updatedAt: new Date().toISOString()}, {merge:true});
+    // also keep local count for fast check
+    let local = JSON.parse(localStorage.getItem('grab_device_accounts')||'[]');
+    if(!local.includes(uid)){local.push(uid);localStorage.setItem('grab_device_accounts',JSON.stringify(local));}
+    return true;
+  }catch(e){ console.log('device check fail',e); return true; }
+}
+async function isDeviceFullForNew(){
+  try{
+    let devId=getDeviceId();
+    let s=await getDoc(doc(db,'devices',devId));
+    if(!s.exists()) return false;
+    let uids=s.data().uids||[];
+    return uids.length>=2;
+  }catch(e){return false;}
+}
+async function init(){
+  if(savedCfg && savedCfg.apiKey && savedCfg.apiKey!=='PASTE_APIKEY'){
+    try{let app=initializeApp(savedCfg);db=getFirestore(app);auth=getAuth(app);useFirebase=true;
+      onAuthStateChanged(auth, async (user)=>{
+        currentUser=user;
+        let isGoogleUser = user.providerData && user.providerData.some(pr=>pr.providerId==='google.com');
+        if(user && !user.emailVerified && !isGoogleUser){
+          window.isVerified=false;
+          document.getElementById('authBox').style.display='none';
+          document.getElementById('appMain').classList.remove('hidden');
+          document.getElementById('conn').innerText='📧 Belum terverifikasi - Masih bisa baca chat & tier';
+          if(!sessionStorage.getItem('verifyPopupShown')){ showVerifyPopup(user.email); sessionStorage.setItem('verifyPopupShown','1'); }
+        } else { window.isVerified=true; }
+        if(user){
+          // MAX 2 AKUN PER DEVICE
+          let allowed = await checkDeviceLimit(user.uid, user.email);
+          if(!allowed){
+            document.getElementById('authBox').style.display='block';
+            document.getElementById('appMain').classList.add('hidden');
+            document.getElementById('conn').innerText='🚫 Device max 2 akun';
+            document.getElementById('authMsg').innerText='Device ini sudah dipakai 2 akun. Max 2 akun per HP / laptop. Pakai salah satu dari 2 akun itu, atau buka di device lain.';
+            try{await signOut(auth);}catch(e){}
+            return;
+          }
+          document.getElementById('authBox').style.display='none';
+          document.getElementById('appMain').classList.remove('hidden');
+          let dispName = localStorage.getItem('ojol_username_pending') || localStorage.getItem('ojol_username_'+user.email) || (user.displayName||'');
+          if(!dispName){ dispName = user.email.split('@')[0]; }
+          if(dispName && !dispName.startsWith('@')) dispName='@'+dispName;
+          document.getElementById('userEmail').innerText=dispName; try{updateChangeUsernameBtn();}catch(e){}
+          try{localStorage.setItem('ojol_username_'+user.email, dispName);}catch(e){}
+          try{
+            let platPending=localStorage.getItem('grab_platform_pending')||'Grab';
+            let profRef=doc(db,'profiles',user.uid);
+            let profSnap=await getDoc(profRef);
+            let plat='Grab', verified=false;
+            if(!profSnap.exists()){
+              let unSave=localStorage.getItem('ojol_username_pending')||localStorage.getItem('ojol_username_'+user.email)||user.email.split('@')[0]; let isG = user.providerData && user.providerData.some(pr=>pr.providerId==='google.com'); await setDoc(profRef,{email:user.email, username:unSave, platform:platPending, verified: isG?true:false, verifiedVia: isG?'Google':'Email', createdAt:new Date().toISOString()});
+              plat=platPending;
+            } else { plat=profSnap.data().platform||'Grab'; verified=!!profSnap.data().verified; if(isGoogleUser && !verified){ verified=true; try{ await setDoc(profRef,{verified:true, verifiedVia:'Google'},{merge:true}); }catch(e){} } let profUn=profSnap.data().username; if(profUn){ let dn=profUn.startsWith('@')?profUn:'@'+profUn; document.getElementById('userEmail').innerText=dn; try{localStorage.setItem('ojol_username_'+user.email, dn);}catch(e){} } }
+            // GOOGLE = OTOMATIS TERVERIFIKASI, nggak peduli isi profiles.verified yang lama
+            if(isGoogleUser || user.emailVerified){ verified=true; window.isVerified=true; }
+            setChecksForPlatform(plat); render();
+            let pb=document.getElementById('userPlatformBadge'); if(pb){pb.innerText=plat==='Gojek'?'🟢 Gojek':'🟢 Grab'; pb.className='pill '+(plat==='Gojek'?'green':'green');}
+            let vb=document.getElementById('userVerifyBadge'); if(vb){ let showV = verified || user.emailVerified || isGoogleUser; vb.innerText=showV?'✅ Terverifikasi':'⏳ Belum Verifikasi'; vb.className='pill '+(showV?'green':'grey'); }}
+            // Update header title per platform
+            let hdr=document.querySelector('header h1'); if(hdr) hdr.innerText=(plat==='Gojek'?'🛵 OJOL SUDIANG KOMUNITAS':'🛵 OJOL SUDIANG KOMUNITAS');
+            // Update strategi tab full per platform
+            try{
+              let stratTitle=document.querySelector('#tab-strategi h2'); 
+              if(plat==='Gojek'){
+                let stratEl=document.getElementById('tab-strategi');
+                // Replace Grab words in strategi cards with Gojek words, but keep structure
+                stratEl.innerHTML = stratEl.innerHTML.replaceAll('GrabBike','GoRide').replaceAll('GrabFood','GoFood').replaceAll('Grab','Gojek').replaceAll('GojekBike','GoRide').replaceAll('GojekFood','GoFood');
+                // Ensure checklist header shows Gojek
+                let sumEl=document.getElementById('summary'); if(sumEl) sumEl.innerHTML=sumEl.innerHTML.replaceAll('Grab','Gojek');
+              }
+            }catch(e){}
+            // Update strategi labels per platform
+            try{
+              let strat=document.getElementById('tab-strategi'); if(strat && plat==='Gojek'){
+                strat.innerHTML=strat.innerHTML.replaceAll('GrabBike','GoRide').replaceAll('GrabFood','GoFood').replaceAll('Grab','Gojek');
+              }
+            }catch(e){}
+          }catch(e){console.log('profile err',e)}
+          document.getElementById('conn').innerText='🟢 Online - '+(localStorage.getItem('ojol_username_'+user.email)||user.email);
+          docRef=doc(db,'users',user.uid);
+          let s=await getDoc(docRef);
+          if(!s.exists()){
+            // migrasi data lama sekali saja kalau ada
+            try{let oldDoc=await getDoc(doc(db,'ojol-sudiang-komunitas','main')); if(oldDoc.exists()){await setDoc(docRef,{data:oldDoc.data().data});} else {await persist();}}catch(e){await persist();}
+          } else { DB=JSON.parse(s.data().data||'{"days":{},"modal":0}'); }
+          onSnapshot(docRef,(snap)=>{if(snap.exists()){try{DB=JSON.parse(snap.data().data||'{}');if(!DB.days)DB.days={}}catch(e){}}render()}); try{listenChat();}catch(e){}
+          render();
+        } else {
+          document.getElementById('authBox').style.display='block';
+          document.getElementById('appMain').classList.add('hidden');
+          document.getElementById('conn').innerText='🔐 Silakan login dulu';
+        }
+      });
+      // auth listener handles load
+    }catch(e){document.getElementById('conn').innerText='🔴 Firebase gagal, pakai lokal';useFirebase=false}
+  } else {
+    document.getElementById('setup').style.display='block';
+    document.getElementById('conn').innerText='🟡 Belum setting Firebase - mode lokal';
+    DB=JSON.parse(localStorage.getItem('grab_sudiang_local')||'{"days":{},"modal":0}');
+  }
+  render();
+}
+window.saveConfig=function(){let cfg={apiKey:document.getElementById('cfg_apiKey').value.trim(),authDomain:document.getElementById('cfg_authDomain').value.trim(),projectId:document.getElementById('cfg_projectId').value.trim(),storageBucket:document.getElementById('cfg_storageBucket').value.trim(),messagingSenderId:document.getElementById('cfg_messagingSenderId').value.trim(),appId:document.getElementById('cfg_appId').value.trim()};localStorage.setItem('ojol_firebase_cfg',JSON.stringify(cfg));location.reload()}
+window.showTab=function(t){ try{let ub=document.getElementById('unverifiedBanner'); if(ub) ub.style.display=(window.isVerified===false?'block':'none');}catch(e){} try{ if(t==='tier'){ loadLeaderboard(); } }catch(e){console.log('tier tab err',e);} try{ if(t==='chat'){ listenChat(); } }catch(e){console.log('chat tab err',e);} ['strategi','ceklis','total','mingguan','bulanan','chat','tier'].forEach(x=>{ try{let el=document.getElementById('tab-'+x); if(el) el.classList.toggle('hidden',x!==t); let btn=document.getElementById('tb'+({strategi:1,ceklis:2,total:3,mingguan:4,bulanan:5,chat:6,tier:7}[x])); if(btn) btn.classList.toggle('active',x===t);}catch(e){} }); try{render();}catch(e){console.log('render err',e);} }
+window.toggleCheck=async function(d,i,on){let dd=dayData(d);if(on&&!dd.checks.includes(i))dd.checks.push(i);if(!on)dd.checks=dd.checks.filter(x=>x!==i);await persist();render()}
+window.setLibur=async function(d,v){let dd=dayData(d);dd.libur=v;if(v){dd.checks=[];dd.pendapatan=0;dd.potongan=0;dd.pengeluaran=[]}await persist();render()}
+window.saveModalDetail=async function(){DB.modalCash=parseInt(document.getElementById('modalCash').value||0);DB.modalNonTunai=parseInt(document.getElementById('modalNonTunai').value||0);DB.modalKredit=parseInt(document.getElementById('modalKredit').value||0);DB.modalDompetTunai=parseInt(document.getElementById('modalDompetTunai').value||0);DB.modal=DB.modalCash+DB.modalNonTunai+DB.modalKredit+DB.modalDompetTunai;await persist();alert('Modal tersimpan: Cash '+fmt(DB.modalCash)+' | Non-Tunai '+fmt(DB.modalNonTunai)+' | Kredit '+fmt(DB.modalKredit)+' | Dompet Tunai '+fmt(DB.modalDompetTunai));render()};
+window.saveModal=window.saveModalDetail;
+window.saveTodayMoneyDetail=async function(){let td=todayStr();let d=parseInt(td.split('-')[2]);if(todayStr().startsWith('2026-11')&&d<=12){alert('Tanggal 1-12 terkunci');return}let dd=dayData(d);dd.pendapatanCash=parseInt(document.getElementById('pendapatanCash').value||0);dd.pendapatanQris=parseInt(document.getElementById('pendapatanQris').value||0);dd.pendapatanNonTunai=parseInt(document.getElementById('pendapatanNonTunai').value||0);dd.pendapatan=dd.pendapatanCash+dd.pendapatanQris+dd.pendapatanNonTunai;dd.potongan=parseInt(document.getElementById('potongan').value||0);if(!dd.potongan&&dd.pendapatan)dd.potongan=Math.round(dd.pendapatan*0.08);await persist();alert('Tersimpan: Cash '+fmt(dd.pendapatanCash)+' | QRIS '+fmt(dd.pendapatanQris)+' | Non-Tunai '+fmt(dd.pendapatanNonTunai));render()};
+window.saveTodayMoney=window.saveTodayMoneyDetail;
+window.addExp=async function(){let n=document.getElementById('expName').value.trim();let a=parseInt(document.getElementById('expAmt').value||0);let t=document.getElementById('expType')?document.getElementById('expType').value:'cash';if(!n||!a){alert('Isi nama dan jumlah');return}let td=todayStr();let d=parseInt(td.split('-')[2]);let dd=dayData(d);dd.pengeluaran.push({name:n,amt:a,type:t});document.getElementById('expName').value='';document.getElementById('expAmt').value='';await persist();render()}
+window.addTopup=async function(){let n=document.getElementById('topupName').value.trim();let a=parseInt(document.getElementById('topupAmt').value||0);let j=document.getElementById('topupJenis').value;let dari=document.getElementById('topupDari').value;if(!n||!a){alert('Isi nama customer & nominal');return}let td=todayStr();let d=parseInt(td.split('-')[2]);let dd=dayData(d);if(!dd.topup)dd.topup=[];dd.topup.push({name:n,amt:a,jenis:j,dari:dari});document.getElementById('topupName').value='';document.getElementById('topupAmt').value='';await persist();render()};
+window.delTopup=async function(i){let td=todayStr();let d=parseInt(td.split('-')[2]);let dd=dayData(d);if(dd.topup)dd.topup.splice(i,1);await persist();render()};
+window.delExp=async function(i){let td=todayStr();let d=parseInt(td.split('-')[2]);let dd=dayData(d);dd.pengeluaran.splice(i,1);await persist();render()}
+function render(){
+  let today=todayStr();let todayDay=parseInt(today.split('-')[2]); let isNov2026 = today.startsWith('2026-11');
+  let full=0,liburC=0,percToday=0;let totalDays=daysInCurMonth(); for(let d=1;d<=totalDays;d++){let dd=dayData(d);if(dd.libur)liburC++;if(dd.checks.length===CHECKS.length)full++}
+  if(todayDay){percToday=Math.round(dayData(todayDay).checks.length/CHECKS.length*100)}
+  document.getElementById('summary').innerHTML=`<div class="kpi"><div><b>${todayDay} / ${totalDays}</b><span>Hari ke-</span></div><div><b>${percToday}%</b><span>Hari ini</span></div><div><b>${full} Hari</b><span>100% Sukses</span></div><div><b>${liburC} Hari</b><span>Libur</span></div></div>${percToday===100?'<p><span class="pill green">✅ SUKSES 100% - HARI INI TUNTAS</span></p>':''}`;
+  let el=document.getElementById('days');el.innerHTML='';
+  for(let d=1;d<=totalDays;d++){let k=dayKey(d);let dd=dayData(d);let isToday=(k===today);let locked=(isNov2026&&d<=12)||(d!==todayDay);let perc=Math.round(dd.checks.length/CHECKS.length*100);
+  if(!isToday){
+    let label = isNov2026&&d<=12 ? '🔒 Terkunci' : dd.libur ? '😴 Libur' : d < todayDay ? (perc===100?'✅ Sukses':fmt(dd.pendapatan)) : '🔜 Belum dibuka';
+    el.innerHTML += `<div class="card past-card"><h3>Hari ${d} • ${d} ${monthLabel()}</h3><div class="bar"><i style="width:${perc}%"></i></div><b>${perc}%</b><span class="mini">${label}</span></div>`;
+    continue;
+  }
+  let h=`<div class="card"><b>Hari ${d} - ${d} ${monthLabel()}</b> <span class="pill ${isToday?'green':'grey'}">${isNov2026&&d<=12?'TERKUNCI - 0':isToday?'HARI INI':d<todayDay?'TERKUNCI - Sudah lewat':'BELUM DIBUKA'}</span> ${dd.libur?'<span class="pill red">LIBUR</span>':''}<div style="display:flex;justify-content:space-between"><b>${perc}%</b></div><div class="bar"><i style="width:${perc}%"></i></div>${perc===100&&!dd.libur?'<p><span class="pill green">✅ SUKSES 100%</span></p>':''}`;
+  if(isToday&&!dd.libur)h+=`<button class="btn-red" style="width:100%;margin:8px 0" onclick="setLibur(${d},true)">😴 Tandai LIBUR Hari Ini</button>`;
+  if(isToday&&dd.libur)h+=`<button class="btn2" style="width:100%;margin:8px 0" onclick="setLibur(${d},false)">Batalkan Libur</button>`;
+  if(dd.libur)h+=`<p class="muted">Hari libur - tidak ada kegiatan, pendapatan 0.</p>`;else CHECKS.forEach((c,i)=>{let ch=dd.checks.includes(i);h+=`<div class="check"><input type="checkbox" ${ch?'checked':''} ${locked?'disabled':''} onchange="toggleCheck(${d},${i},this.checked)"><label>${c}</label></div>`});
+  h+=`</div>`;el.innerHTML+=h;}
+  if(document.getElementById('modalCash')) document.getElementById('modalCash').value=DB.modalCash||''; if(document.getElementById('modalNonTunai')) document.getElementById('modalNonTunai').value=DB.modalNonTunai||''; if(document.getElementById('modalKredit')) document.getElementById('modalKredit').value=DB.modalKredit||''; if(document.getElementById('modalDompetTunai')) document.getElementById('modalDompetTunai').value=DB.modalDompetTunai||''; if(document.getElementById('modalDetailInfo')) document.getElementById('modalDetailInfo').innerText='Total Modal: '+fmt((DB.modalCash||0)+(DB.modalNonTunai||0)+(DB.modalKredit||0)+(DB.modalDompetTunai||0));
+  if(todayDay){let dd=dayData(todayDay);if(document.getElementById('pendapatanCash')) document.getElementById('pendapatanCash').value=dd.pendapatanCash||''; if(document.getElementById('pendapatanQris')) document.getElementById('pendapatanQris').value=dd.pendapatanQris||''; if(document.getElementById('pendapatanNonTunai')) document.getElementById('pendapatanNonTunai').value=dd.pendapatanNonTunai||''; if(document.getElementById('potongan')) document.getElementById('potongan').value=dd.potongan||''; if(document.getElementById('todayMoneyInfo')) document.getElementById('todayMoneyInfo').innerText='Total Hari ini: '+fmt(dd.pendapatan)+' | Cash: '+fmt(dd.pendapatanCash||0)+' | QRIS: '+fmt(dd.pendapatanQris||0)+' | Non-Tunai: '+fmt(dd.pendapatanNonTunai||0)+' | Potongan: '+fmt(dd.potongan);
+  let expEl=document.getElementById('expList');expEl.innerHTML='';(dd.pengeluaran||[]).forEach((e,i)=>{expEl.innerHTML+=`<div style="display:flex;gap:8px;margin:6px 0"><span style="flex:1">${e.name} - ${fmt(e.amt)} <small>${e.type==='nontunai'?'📱 Non-Tunai':'💵 Tunai'}</small></span><button class="btn-red" onclick="delExp(${i})">Hapus</button></div>`}); let topEl=document.getElementById('topupList'); if(topEl){topEl.innerHTML=''; (dd.topup||[]).forEach((t,i)=>{topEl.innerHTML+=`<div style="display:flex;gap:8px;margin:6px 0"><span style="flex:1">${t.name} - ${t.jenis} ${fmt(t.amt)} <small>dari ${t.dari==='cash'?'💵 Cash':t.dari==='nontunai'?'📱 Non-Tunai':'💳 Kredit'}</small></span><button class="btn-red" onclick="delTopup(${i})">Hapus</button></div>`})}}
+  // Wallet summary for today + all time
+  try{
+    let tdDay = todayDay; let ddT = dayData(tdDay);
+    let expCashToday=0, expNonToday=0; (ddT.pengeluaran||[]).forEach(e=>{if(e.type==='nontunai') expNonToday+=e.amt||0; else expCashToday+=e.amt||0;});
+    let topCash=0, topNon=0, topKredit=0; (ddT.topup||[]).forEach(t=>{if(t.dari==='cash') topCash+=t.amt||0; else if(t.dari==='nontunai') topNon+=t.amt||0; else topKredit+=t.amt||0;});
+    let cashTangan=(DB.modalCash||0)+(ddT.pendapatanCash||0)-expCashToday-topCash;
+    let nonTunai=(DB.modalNonTunai||0)+(ddT.pendapatanQris||0)+(ddT.pendapatanNonTunai||0)-expNonToday-topNon;
+    let kredit=(DB.modalKredit||0)-(ddT.potongan||0)-topKredit;
+    let dompetTunai=(DB.modalDompetTunai||0)+(ddT.pendapatanNonTunai||0);
+    // Cumulative across all days for wallet summary (for total tab)
+    let cPendCash=0,cPendQris=0,cPendNon=0,cPot=0,cExpCash=0,cExpNon=0,cTopCash=0,cTopNon=0,cTopKredit=0;
+    Object.keys(DB.days||{}).forEach(k=>{let ddx=DB.days[k]; if(k.startsWith('2026-11')&&parseInt(k.split('-')[2])<=12) return; cPendCash+=ddx.pendapatanCash||0; cPendQris+=ddx.pendapatanQris||0; cPendNon+=ddx.pendapatanNonTunai||0; cPot+=ddx.potongan||0; (ddx.pengeluaran||[]).forEach(e=>{if(e.type==='nontunai') cExpNon+=e.amt||0; else cExpCash+=e.amt||0;}); (ddx.topup||[]).forEach(t=>{if(t.dari==='cash') cTopCash+=t.amt||0; else if(t.dari==='nontunai') cTopNon+=t.amt||0; else cTopKredit+=t.amt||0;});});
+    let totalCash=(DB.modalCash||0)+cPendCash-cExpCash-cTopCash;
+    let totalNon=(DB.modalNonTunai||0)+cPendQris+cPendNon-cExpNon-cTopNon;
+    let totalKredit=(DB.modalKredit||0)-cPot-cTopKredit;
+    let totalDompet=(DB.modalDompetTunai||0)+cPendNon;
+    let ws=document.getElementById('walletSummary'); if(ws) ws.innerHTML=`<div class="kpi"><div><b>${fmt(totalCash)}</b><span>💵 Cash di Tangan (Total)</span><small>Hari ini: ${fmt(cashTangan)}</small></div><div><b>${fmt(totalNon)}</b><span>📱 Non-Tunai OVO/Rekening (Total)</span><small>Hari ini: ${fmt(nonTunai)}</small></div><div><b>${fmt(totalKredit)}</b><span>💳 Dompet Kredit Sisa</span><small>Hari ini: ${fmt(kredit)}</small></div><div><b>${fmt(totalDompet)}</b><span>👛 Dompet Tunai Grab</span><small>Hari ini: ${fmt(dompetTunai)}</small></div></div>`;
+  }catch(e){console.log('wallet err',e)}
+  try{
+    try{ // Tier current month
+    let checkSum=0, checkTotal=0; for(let d=1;d<=totalDays;d++){let dd=dayData(d); if(isNov2026&&d<=12) continue; checkSum+=dd.checks.length; checkTotal+=CHECKS.length;}
+    let percTier=checkTotal?Math.round(checkSum/checkTotal*100):0; let tier=calcTier(percTier);
+    let code=userCodeFor(currentUser?currentUser.uid:'guest', tier.code);
+    let badge=document.getElementById('userTierBadge'); if(badge){badge.className='pill '+tier.cls; badge.innerText=tier.emoji+' Tier '+tier.code+' - '+tier.label;}
+    let uc=document.getElementById('userCode'); if(uc) uc.innerText='• Kode: '+code;
+    let tc=document.getElementById('tierCard'); if(tc) tc.innerHTML=`<div style="text-align:center"><div style="font-size:48px">${tier.emoji}</div><h2>Tier ${tier.code} - ${tier.label}</h2><p><span class="pill ${tier.cls}">Kode User: ${code}</span></p><p class="big">${percTier}%</p><div class="bar"><i style="width:${percTier}%"></i></div><p class="muted">Bulan ini: ${monthLabel()} • Checklist tercentang: ${checkSum} / ${checkTotal}<br>Kode ini otomatis berubah kalau tier kamu naik / turun bulan depan.</p><p class="muted">Naik ke Tier S butuh ${Math.max(0, Math.ceil((90*checkTotal/100)-checkSum))} checklist lagi bulan ini.</p></div>`;
+    // Tier history per month from DB.days
+    let hist={}; Object.keys(DB.days||{}).forEach(k=>{let ym=k.slice(0,7); if(!hist[ym]) hist[ym]={sum:0,total:0}; let dd=DB.days[k]; if(k.startsWith('2026-11')&&parseInt(k.split('-')[2])<=12) return; hist[ym].sum+=(dd.checks||[]).length; hist[ym].total+=CHECKS.length;});
+    let hHtml=''; Object.keys(hist).sort().reverse().forEach(ym=>{let s=hist[ym]; let p=s.total?Math.round(s.sum/s.total*100):0; let t=calcTier(p); let lab=new Date(ym+'-01').toLocaleDateString('id-ID',{month:'long',year:'numeric'}); hHtml+=`<div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed #eee"><b style="flex:1">${lab}</b><span class="pill ${t.cls}">${t.emoji} Tier ${t.code}</span><b>${p}%</b></div>`;});
+    try{loadLeaderboard();}catch(e){} let th=document.getElementById('tierHistory'); if(th) th.innerHTML=hHtml||'<p class="muted">Belum ada data. Centang checklist hari ini dulu.</p>';
+  }catch(e){console.log('tier err',e)}
+  try{let platNow=localStorage.getItem('grab_platform_pending')||'Grab'; let cp=document.getElementById('ceklisPlatform'); if(cp) cp.innerText=platNow; let ch=document.getElementById('ceklisPlatformHint'); if(ch) ch.innerText=platNow==='Gojek'?'Fokus Gojek: GoRide + GoFood':'Fokus Grab: GrabBike + GrabFood';}catch(e){}
+  try{drawChart();}catch(e){}  let tp=0,tpot=0,texp=0;for(let d=1;d<=totalDays;d++){let dd=dayData(d);if(isNov2026&&d<=12) continue; tp+=dd.pendapatan||0;tpot+=dd.potongan||0;(dd.pengeluaran||[]).forEach(e=>texp+=e.amt||0)}
+  let bersih=tp-tpot-texp-(DB.modal||0);let active=0;for(let d=1;d<=totalDays;d++){if(isNov2026&&d<=12) continue; if(!dayData(d).libur)active++}
+  document.getElementById('totals').innerHTML=`<div class="kpi"><div><b>${fmt(tp)}</b><span>Total Pendapatan</span></div><div><b>${fmt(tpot)}</b><span>Total Potongan</span></div><div><b>${fmt(texp)}</b><span>Total Pengeluaran</span></div><div><b>${fmt(DB.modal||0)}</b><span>Modal Awal</span></div></div><p class="big" style="color:${bersih>=0?'#0a6b2e':'#c00'}">${fmt(bersih)}</p><p><span class="pill ${bersih>=0?'green':'red'}">${bersih>=0?'✅ UNTUNG':'❌ BONCOS'}</span> <span class="muted">Rata-rata / hari aktif: ${fmt(active?Math.round(bersih/active):0)}</span></p>`;
+  let rk='<h3>Rekap</h3><table><tr><th>Tgl</th><th>Status</th><th>Pendapatan</th><th>Potongan</th><th>Pengeluaran</th></tr>';for(let d=1;d<=totalDays;d++){let dd=dayData(d);let ex=(dd.pengeluaran||[]).reduce((a,e)=>a+e.amt,0);rk+=`<tr><td>${d} ${monthLabel()}</td><td>${isNov2026&&d<=12?'Terkunci (0)':dd.libur?'Libur':'Aktif'}</td><td>${fmt(isNov2026&&d<=12?0:dd.pendapatan)}</td><td>${fmt(isNov2026&&d<=12?0:dd.potongan)}</td><td>${fmt(isNov2026&&d<=12?0:ex)}</td></tr>`}rk+='</table>';document.getElementById('rekap').innerHTML=rk;
+  // --- REKAP MINGGUAN ---
+  try{
+    document.querySelectorAll('.monthLabel').forEach(el=>el.innerText=monthLabel());
+    let weeks={};
+    for(let d=1;d<=totalDays;d++){let w=Math.ceil(d/7); if(!weeks[w]) weeks[w]={pend:0,pot:0,exp:0,succ:0,libur:0,checkSum:0,checkTotal:0,active:0};
+      let dd=dayData(d); if(isNov2026&&d<=12) continue;
+      weeks[w].pend+=dd.pendapatan||0; weeks[w].pot+=dd.potongan||0; weeks[w].exp+=(dd.pengeluaran||[]).reduce((a,e)=>a+e.amt,0);
+      if(dd.libur) weeks[w].libur++; else {weeks[w].active++; if(dd.checks.length===CHECKS.length) weeks[w].succ++;}
+      weeks[w].checkSum+=dd.checks.length; weeks[w].checkTotal+=CHECKS.length;
+    }
+    let wHtml='';
+    Object.keys(weeks).sort((a,b)=>a-b).forEach(w=>{
+      let s=weeks[w]; let bersihW=s.pend-s.pot-s.exp; let percW=s.checkTotal?Math.round(s.checkSum/s.checkTotal*100):0;
+      let range = w==1?'Tgl 1-7':w==2?'Tgl 8-14':w==3?'Tgl 15-21':w==4?'Tgl 22-28':'Tgl 29-31';
+      wHtml+=`<div class="card week-card"><b>Minggu ${w} • ${range}</b> <span class="pill ${percW===100?'green':'grey'}">${percW}% Ceklis</span><div class="kpi" style="margin-top:10px"><div><b>${fmt(s.pend)}</b><span>Pendapatan</span></div><div><b>${fmt(s.pot)}</b><span>Potongan</span></div><div><b>${fmt(s.exp)}</b><span>Pengeluaran</span></div><div><b style="color:${bersihW>=0?'#0a6b2e':'#c00'}">${fmt(bersihW)}</b><span>Bersih</span></div></div><p class="muted">Hari aktif: ${s.active} • Sukses 100%: ${s.succ} hari • Libur: ${s.libur} hari • Rata-rata bersih / hari aktif: ${fmt(s.active?Math.round(bersihW/s.active):0)}</p></div>`;
+    });
+    let wl=document.getElementById('weeklyList'); if(wl) wl.innerHTML=wHtml||'<p class="muted">Belum ada data minggu ini.</p>';
+  }catch(e){console.log('weekly err',e)}
+  // --- REKAP BULANAN ---
+  try{
+    let months={};
+    Object.keys(DB.days||{}).forEach(k=>{
+      let ym=k.slice(0,7); if(!months[ym]) months[ym]={pend:0,pot:0,exp:0,succ:0,libur:0,active:0,checkSum:0,checkTotal:0,days:0};
+      let dd=DB.days[k]; if(k.startsWith('2026-11') && parseInt(k.split('-')[2])<=12) return;
+      months[ym].days++; months[ym].pend+=dd.pendapatan||0; months[ym].pot+=dd.potongan||0; months[ym].exp+=(dd.pengeluaran||[]).reduce((a,e)=>a+e.amt,0);
+      if(dd.libur) months[ym].libur++; else {months[ym].active++; if(dd.checks && dd.checks.length===CHECKS.length) months[ym].succ++;}
+      months[ym].checkSum+=(dd.checks||[]).length; months[ym].checkTotal+=CHECKS.length;
+    });
+    let mHtml=''; let allPend=0,allPot=0,allExp=0,allSucc=0,allActive=0;
+    Object.keys(months).sort().reverse().forEach(ym=>{
+      let s=months[ym]; let bersihM=s.pend-s.pot-s.exp; let percM=s.checkTotal?Math.round(s.checkSum/s.checkTotal*100):0;
+      let label=new Date(ym+'-01').toLocaleDateString('id-ID',{month:'long',year:'numeric'});
+      allPend+=s.pend; allPot+=s.pot; allExp+=s.exp; allSucc+=s.succ; allActive+=s.active;
+      mHtml+=`<div class="card month-card"><b>📆 ${label}</b> <span class="pill ${percM===100?'green':'grey'}">${percM}% Ceklis</span><div class="kpi" style="margin-top:10px"><div><b>${fmt(s.pend)}</b><span>Pendapatan</span></div><div><b>${fmt(s.pot)}</b><span>Potongan</span></div><div><b>${fmt(s.exp)}</b><span>Pengeluaran</span></div><div><b style="color:${bersihM>=0?'#0a6b2e':'#c00'}">${fmt(bersihM)}</b><span>Bersih</span></div></div><p class="muted">Hari aktif: ${s.active} • Sukses 100%: ${s.succ} hari • Libur: ${s.libur} hari • Modal: ${ym===curYM()?fmt(DB.modal||0):'-'}</p></div>`;
+    });
+    let ml=document.getElementById('monthlyList'); if(ml) ml.innerHTML=mHtml||'<p class="muted">Belum ada data bulan ini. Mulai centang hari ini biar kehitung.</p>';
+    let allBersih=allPend-allPot-allExp-(DB.modal||0);
+    let at=document.getElementById('allTimeTotals'); if(at) at.innerHTML=`<div class="kpi"><div><b>${fmt(allPend)}</b><span>Total Pendapatan Semua Bulan</span></div><div><b>${fmt(allPot)}</b><span>Total Potongan</span></div><div><b>${fmt(allExp)}</b><span>Total Pengeluaran</span></div><div><b>${fmt(DB.modal||0)}</b><span>Modal Awal</span></div></div><p class="big" style="color:${allBersih>=0?'#0a6b2e':'#c00'}">${fmt(allBersih)}</p><p><span class="pill ${allBersih>=0?'green':'red'}">${allBersih>=0?'✅ UNTUNG':'❌ BONCOS'}</span> <span class="muted">Total hari sukses 100%: ${allSucc} • Total hari aktif: ${allActive}</span></p>`;
+  }catch(e){console.log('monthly err',e)}
+}
+try{document.getElementById('headerMonth').innerText = 'Program '+monthLabel()+' • '+daysInCurMonth()+' Hari';}catch(e){} window.showAuthTab=function(mode){document.getElementById('tabEmailLogin').style.background=mode==='login'?'#111':'#eee';document.getElementById('tabEmailLogin').style.color=mode==='login'?'#fff':'#111';document.getElementById('tabEmailSignup').style.background=mode==='signup'?'#111':'#eee';document.getElementById('tabEmailSignup').style.color=mode==='signup'?'#fff':'#111';document.getElementById('btnEmailAction').innerText=mode==='signup'?'Daftar & Kirim Link Verifikasi':'Masuk';document.getElementById('btnEmailAction').onclick=mode==='signup'?doSignup:doLogin;document.getElementById('authEmailHint') ? document.getElementById('authEmailHint').innerText='' : null;};
+
+window.requirePlatform=function(){ let pl=document.getElementById('authPlatform')?document.getElementById('authPlatform').value:''; if(!pl){ document.getElementById('authMsg').innerText='Wajib pilih Grab atau Gojek dulu!'; document.getElementById('authPlatform').style.border='2px solid #ff3b30'; document.getElementById('authPlatform').focus(); return null; } document.getElementById('authPlatform').style.border='1px solid #ddd'; return pl; };
+window.doGoogle=async function(){
+  let platReq=requirePlatform(); if(!platReq) return; let un=document.getElementById('authUsername')?document.getElementById('authUsername').value.trim().replace(/^@/,''):''; 
+  if(un) localStorage.setItem('ojol_username_pending', un);
+  let plat=platReq; localStorage.setItem('grab_platform_pending', plat);
+  if(await isDeviceFullForNew()){document.getElementById('authMsg').innerText='Device ini sudah max 2 akun.';return;}
+  try{
+    let provider=new GoogleAuthProvider(); let res=await signInWithPopup(auth,provider); try{await res.user.reload();}catch(e){}
+    let gUser=res.user;
+    // Username ikut Google: pakai displayName Google kalau user nggak isi manual
+    let gName = (gUser.displayName||'').trim();
+    let gUsername = un || (gName ? gName.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'').toLowerCase().slice(0,20) : gUser.email.split('@')[0]);
+    // Kalau username Google-nya sudah kepake, tambahin angka biar unik
+    if(!un && gUsername && await isUsernameTaken(gUsername)){ let base=gUsername.slice(0,15); let suffix=Math.floor(100+Math.random()*900); gUsername=base+'_'+suffix; }
+    if(!un && gUsername){ localStorage.setItem('ojol_username_pending', gUsername); localStorage.setItem('ojol_username_'+gUser.email, '@'+gUsername); }
+    // Google sudah terverifikasi otomatis oleh Google, jadi langsung verified = true, nggak perlu klik link
+    try{ await setDoc(doc(db,'profiles',gUser.uid),{email:gUser.email, username:gUsername, platform:plat, verified:true, verifiedVia:'Google', usernameChanged:false, createdAt:new Date().toISOString()},{merge:true}); }catch(e){console.log('google profile err',e);}
+    document.getElementById('authMsg').innerText='';
+    closeVerifyPopup();
+  }catch(err){document.getElementById('authMsg').innerText='Gagal login Google: '+(err.message||err.code)}
+};
+window.doSignup=async function(){ let platReq=requirePlatform(); if(!platReq) return; let e=document.getElementById('authEmail').value.trim(); let un=document.getElementById('authUsername')?document.getElementById('authUsername').value.trim().replace(/^@/,''):''; if(un) localStorage.setItem('ojol_username_pending', un); if(un){ if(await isUsernameTaken(un)){ document.getElementById('authMsg').innerText='Username @'+un+' sudah kepake orang lain, ganti yang lain!'; return; } } if(un) localStorage.setItem('ojol_username_'+e, un); let plat=platReq; localStorage.setItem('grab_platform_pending', plat); if(await isDeviceFullForNew()){document.getElementById('authMsg').innerText='Device ini sudah max 2 akun. Nggak bisa daftar akun ke-3 di device ini.';return;}let pw=document.getElementById('authPass').value;if(!e||pw.length<6){document.getElementById('authMsg').innerText='Email harus valid & password min 6 huruf';return}try{let cred=await createUserWithEmailAndPassword(auth,e,pw);await sendEmailVerification(cred.user);showVerifyPopup(user.email);document.getElementById('verifyEmail').innerText=e;document.getElementById('authMsg').innerText='Berhasil daftar! Cek email '+e+' dan klik link verifikasi-nya dulu.';}catch(err){document.getElementById('authMsg').innerText='Gagal daftar: '+(err.code||err.message)}};
+window.resendVerify=async function(){try{if(auth.currentUser){await sendEmailVerification(auth.currentUser);document.getElementById('authMsg').innerText='Link verifikasi dikirim ulang ke '+auth.currentUser.email}}catch(e){document.getElementById('authMsg').innerText='Gagal kirim ulang: '+e.message}};
+window.showVerifyPopup=function(email){document.getElementById('verifyEmail').innerText=email||'';let el=document.getElementById('verifyPopup');el.style.display='flex';}; window.closeVerifyPopup=function(){document.getElementById('verifyPopup').style.display='none';}; window.checkVerified=async function(){try{if(auth.currentUser){await auth.currentUser.reload();if(auth.currentUser.emailVerified){location.reload()}else{document.getElementById('authMsg').innerText='Belum terverifikasi. Cek email & klik link-nya dulu, cek juga folder Spam.'}}}catch(e){document.getElementById('authMsg').innerText=e.message}};
+window.doLogin=async function(){ let platReq=requirePlatform(); if(!platReq) return; let e=document.getElementById('authEmail').value.trim();let pw=document.getElementById('authPass').value;try{let cred=await signInWithEmailAndPassword(auth,e,pw);await cred.user.reload();if(!cred.user.emailVerified){showVerifyPopup(user.email);document.getElementById('verifyEmail').innerText=cred.user.email;document.getElementById('authMsg').innerText='Email belum terverifikasi. Cek email & klik link-nya dulu.';}}catch(err){document.getElementById('authMsg').innerText='Gagal login: email / password salah. Kalau belum daftar, klik Daftar dulu.'}};
+window.sendChat=async function(){let txt=document.getElementById('chatInput').value.trim(); if(!txt) return; if(!currentUser){alert('Login dulu');return;} if(window.isVerified===false){ showVerifyPopup(currentUser.email); alert('Verifikasi email dulu baru bisa kirim chat. Kamu masih bisa baca chat & lihat tier.'); return; } try{let platChat=localStorage.getItem('grab_platform_pending')||'Grab'; let chatUn=localStorage.getItem('ojol_username_'+currentUser.email)||currentUser.email.split('@')[0]; if(!chatUn.startsWith('@')) chatUn='@'+chatUn; await addDoc(collection(db,'chats','global','messages'),{text:txt,username:chatUn,email:currentUser.email,uid:currentUser.uid,platform:platChat,createdAt:serverTimestamp()}); document.getElementById('chatInput').value='';}catch(e){alert('Gagal kirim chat: '+e.message)}};
+window.listenChat=function(){try{let q=query(collection(db,'chats','global','messages'),orderBy('createdAt','asc'),limit(100)); onSnapshot(q,(snap)=>{let el=document.getElementById('chatList'); if(!el) return; el.innerHTML=''; if(snap.empty){el.innerHTML='<p class="muted">Belum ada chat. Jadi yang pertama kirim chat!</p>';} else { /* has chat */ } snap.forEach(d=>{let m=d.data(); let isMe=currentUser && m.uid===currentUser.uid; let time=m.createdAt?new Date(m.createdAt.toDate()).toLocaleString('id-ID',{hour:'2-digit',minute:'2-digit',day:'numeric',month:'short'}):''; el.innerHTML+=`<div class="chat-msg ${isMe?'me':''}"><b>${isMe?'Kamu':(m.username||('@'+(m.email||'User').split('@')[0]))}</b> <small>[${m.platform||'Grab'}]</small> <small>${time}</small><br>${m.text.replace(/</g,'&lt;')}</div>`;}); el.scrollTop=el.scrollHeight;});}catch(e){console.log('chat listen err',e); let st=document.getElementById('chatStatus'); if(st) st.innerText='Chat belum bisa dimuat: '+e.message; }};
+window.calcTier=function(perc){if(perc>=90) return {code:'S',label:'Rajin Banget',cls:'tier-S',emoji:'🥇'}; if(perc>=75) return {code:'A',label:'Rajin',cls:'tier-A',emoji:'🥈'}; if(perc>=60) return {code:'B',label:'Lumayan',cls:'tier-B',emoji:'🥉'}; if(perc>=40) return {code:'C',label:'Kurang',cls:'tier-C',emoji:'⚠️'}; return {code:'D',label:'Malas',cls:'tier-D',emoji:'😴'};};
+window.userCodeFor=function(uid,tierCode){let h=0; for(let i=0;i<uid.length;i++) h=(h*31+uid.charCodeAt(i))%10000; return 'GRB-'+tierCode+'-'+String(h).padStart(4,'0');};
+window.submitVerify=async function(){let link=document.getElementById('verifyProof').value.trim(); if(!currentUser){alert('Login dulu');return;} try{await setDoc(doc(db,'profiles',currentUser.uid),{verifyProof:link, verifyRequestedAt:new Date().toISOString(), verified:false},{merge:true}); document.getElementById('verifyMsg').innerText='Bukti terkirim. Tunggu admin cek & verifikasi. Cek lagi besok.';}catch(e){document.getElementById('verifyMsg').innerText='Gagal kirim: '+e.message}};
+window.loadLeaderboard=async function(){ try{
+  try{
+    let lb=document.getElementById('leaderboard'); if(!lb) return;
+    // Load profiles for usernames
+    let profMap={};
+    try{ let profSnap=await getDocs(collection(db,'profiles')); profSnap.forEach(d=>{profMap[d.id]=d.data();}); }catch(e){console.log('prof load err',e);}
+    // Load all users data
+    let userSnap=await getDocs(collection(db,'users')); // leaderboard hanya yang terverifikasi, yang belum verifikasi tetap bisa lihat tapi nggak masuk ranking
+    let rows=[];
+    userSnap.forEach(d=>{
+      let data={}; try{data=JSON.parse(d.data().data||'{}');}catch(e){}
+      let curYM2=curYM(); let sum=0,total=0;
+      Object.keys(data.days||{}).forEach(k=>{ if(!k.startsWith(curYM2)) return; let dd=data.days[k]; sum+=(dd.checks||[]).length; total+=CHECKS.length; });
+      let perc=total?Math.round(sum/total*100):0;
+      let tier=calcTier(perc);
+      let prof=profMap[d.id]||{};
+      let name=prof.username||('@'+(prof.email||'user').split('@')[0]);
+      if(!name.startsWith('@')) name='@'+name;
+      rows.push({name:name, platform:prof.platform||'Grab', perc:perc, tier:tier, uid:d.id});
+    });
+    rows.sort((a,b)=>b.perc-a.perc);
+    if(rows.length===0){ lb.innerHTML='<p class="muted">Belum ada user lain. Kamu jadi yang pertama!</p>'; return; } if(window.isVerified===false){ lb.innerHTML='<p class="muted" style="background:#fff3cd;padding:10px;border-radius:10px">Kamu belum verifikasi, jadi belum masuk leaderboard. Verifikasi dulu biar namamu muncul di sini.</p>'+lb.innerHTML; }
+    let html='';
+    rows.slice(0,20).forEach((r,i)=>{
+      let medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
+      let isMe=currentUser && r.uid===currentUser.uid;
+      html+=`<div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed #eee;${isMe?'background:#e8f5e9;border-radius:10px;padding:10px':''}"><b style="width:28px">${medal}</b><b style="flex:1">${r.name} ${isMe?'(Kamu)':''} <small>[${r.platform}]</small></b><span class="pill ${r.tier.cls}">${r.tier.emoji} Tier ${r.tier.code}</span><b>${r.perc}%</b></div>`;
+    });
+    lb.innerHTML=html;
+  }catch(e){ let lb=document.getElementById('leaderboard'); if(lb) lb.innerHTML='<p class="muted">Gagal load leaderboard: '+e.message+'</p>'; }
+};
+
+
+window.isUsernameTaken=async function(username){
+  try{
+    let un = username.trim().replace(/^@/,'').toLowerCase();
+    let q = query(collection(db,'profiles'), where('username','==',un));
+    let snap = await getDocs(q);
+    if(!snap.empty) return true;
+    // Also check with @ prefix variant (old data)
+    let q2 = query(collection(db,'profiles'), where('username','==','@'+un));
+    let snap2 = await getDocs(q2);
+    return !snap2.empty;
+  }catch(e){ console.log('check username err',e); return false; }
+};
+window.changeUsernameOnce=async function(){
+  if(!currentUser) return;
+  let isGoogle = currentUser.providerData && currentUser.providerData.some(pr=>pr.providerId==='google.com');
+  if(!isGoogle){ alert('Username dari Email sudah permanen, nggak bisa diganti.'); return; }
+  // Cek sudah pernah ganti apa belum
+  try{
+    let profSnap = await getDoc(doc(db,'profiles', currentUser.uid));
+    let data = profSnap.exists()?profSnap.data():{};
+    if(data.usernameChanged){ alert('Kamu sudah pakai jatah ganti username 1x. Username sekarang permanen.'); return; }
+    let cur = (data.username||'').replace(/^@/,'');
+    let baru = prompt('Ganti username 1x. Ini terakhir, habis ini permanen.\nUsername baru (tanpa @):', cur);
+    if(!baru) return;
+    baru = baru.trim().replace(/^@/,'').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'').toLowerCase().slice(0,20);
+    if(!baru){ alert('Username nggak valid.'); return; }
+    if(await isUsernameTaken(baru)){ alert('Username @'+baru+' sudah kepake orang lain, ganti yang lain!'); return; }
+    if(!confirm('Yakin ganti jadi @'+baru+'? Habis ini nggak bisa diganti lagi.')) return;
+    await setDoc(doc(db,'profiles', currentUser.uid),{username: baru, usernameChanged:true, usernameChangedAt:new Date().toISOString()},{merge:true});
+    localStorage.setItem('ojol_username_'+currentUser.email, '@'+baru);
+    localStorage.setItem('ojol_username_pending', baru);
+    document.getElementById('userEmail').innerText='@'+baru;
+    document.getElementById('btnChangeUsername').style.display='none';
+    alert('Username berhasil diganti jadi @'+baru+' dan sekarang permanen.');
+  }catch(e){ alert('Gagal ganti username: '+e.message); }
+};
+window.updateChangeUsernameBtn=function(){
+  try{
+    let btn=document.getElementById('btnChangeUsername'); if(!btn||!currentUser) return;
+    let isGoogle = currentUser.providerData && currentUser.providerData.some(pr=>pr.providerId==='google.com');
+    if(!isGoogle){ btn.style.display='none'; return; }
+    // Cek di Firestore apakah sudah pernah ganti
+    getDoc(doc(db,'profiles', currentUser.uid)).then(s=>{
+      let d=s.exists()?s.data():{};
+      if(d.usernameChanged){ btn.style.display='none'; }
+      else { btn.style.display='inline-block'; }
+    }).catch(()=>{ btn.style.display='inline-block'; });
+  }catch(e){}
+};
+window.doLogout=async function(){await signOut(auth);location.reload()};
+window.exportCSV=async function(){
+  let rows=[['Tanggal','Status','Pendapatan Cash','Pendapatan QRIS','Pendapatan Non-Tunai','Total Pendapatan','Potongan','Pengeluaran Tunai','Pengeluaran Non-Tunai','Pengisian Customer','Bersih']];
+  Object.keys(DB.days||{}).sort().forEach(k=>{
+    let dd=DB.days[k]; let expC=0,expN=0;(dd.pengeluaran||[]).forEach(e=>{if(e.type==='nontunai')expN+=e.amt||0;else expC+=e.amt||0;});
+    let top=(dd.topup||[]).reduce((a,t)=>a+(t.amt||0),0);
+    let bersih=(dd.pendapatan||0)-(dd.potongan||0)-expC-expN-top;
+    rows.push([k, dd.libur?'Libur':'Aktif', dd.pendapatanCash||0, dd.pendapatanQris||0, dd.pendapatanNonTunai||0, dd.pendapatan||0, dd.potongan||0, expC, expN, top, bersih]);
+  });
+  let csv=rows.map(r=>r.join(',')).join('\n');
+  let blob=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='rekap-ojol-sudiang-komunitas-'+todayStr()+'.csv'; a.click();
+};
+window.exportBackupJSON=async function(){
+  let blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='backup-ojol-sudiang-komunitas-'+todayStr()+'.json'; a.click();
+};
+window.drawChart=function(){
+  try{
+    let cv=document.getElementById('chartPendapatan'); if(!cv) return; let ctx=cv.getContext('2d'); ctx.clearRect(0,0,600,220);
+    let keys=Object.keys(DB.days||{}).sort().slice(-14);
+    if(keys.length===0){ctx.fillStyle='#888';ctx.font='14px Arial';ctx.fillText('Belum ada data. Isi pendapatan hari ini dulu.',20,110);return;}
+    let maxV=1; keys.forEach(k=>{let dd=DB.days[k]; maxV=Math.max(maxV, dd.pendapatan||0, (dd.pengeluaran||[]).reduce((a,e)=>a+e.amt,0));});
+    let barW=600/keys.length;
+    keys.forEach((k,i)=>{
+      let dd=DB.days[k]; let pend=dd.pendapatan||0; let exp=(dd.pengeluaran||[]).reduce((a,e)=>a+e.amt,0);
+      let hPend=pend/maxV*170; let hExp=exp/maxV*170;
+      ctx.fillStyle='#00A651'; ctx.fillRect(i*barW+6, 190-hPend, barW/2-8, hPend);
+      ctx.fillStyle='#ff3b30'; ctx.fillRect(i*barW+barW/2+2, 190-hExp, barW/2-8, hExp);
+      ctx.fillStyle='#333'; ctx.font='10px Arial'; ctx.fillText(k.slice(8,10), i*barW+8, 205);
+      ctx.fillStyle='#00A651'; ctx.fillText((pend/1000).toFixed(0)+'k', i*barW+4, 185-hPend);
+    });
+    let info=document.getElementById('chartInfo'); if(info && keys.length>=2){let last=DB.days[keys[keys.length-1]].pendapatan||0; let prev=DB.days[keys[keys.length-2]].pendapatan||0; let diff=last-prev; info.innerText='Kemarin: '+fmt(prev)+' | Hari ini: '+fmt(last)+' | '+(diff>=0?'📈 Naik ':'📉 Turun ')+fmt(Math.abs(diff))+' dibanding kemarin';}
+  }catch(e){console.log('chart err',e)}
+};
+try{let devAcc=JSON.parse(localStorage.getItem('grab_device_accounts')||'[]');document.getElementById('deviceInfo').innerText='📱 Device ini: '+devAcc.length+' / 2 akun terpakai';}catch(e){}
+init();
+</script>
+<div id="verifyPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center">
+<div style="background:#fff;border-radius:16px;padding:24px;max-width:360px;margin:20px;text-align:center">
+<div style="font-size:48px">📧</div><h2>Periksa Email Kamu</h2><p>Kami kirim link verifikasi ke <b id="verifyEmail"></b>. Klik link itu, lalu kembali ke sini.</p>
+<button class="btn" style="width:100%" onclick="checkVerified()">Saya Sudah Klik Link</button>
+<button class="btn2" style="width:100%;margin-top:8px" onclick="resendVerify()">Kirim Ulang</button>
+<button style="background:none;border:0;color:#999;margin-top:10px;cursor:pointer" onclick="closeVerifyPopup()">Tutup</button>
+</div></div>
+
+<script>
+setTimeout(()=>{
+  try{
+    let conn=document.getElementById('conn');
+    if(conn && conn.innerText.includes('Menghubungkan')){
+      conn.innerText='⚠️ Gagal menghubungkan - Cek internet / cache lama';
+      let authBox=document.getElementById('authBox'); if(authBox) authBox.style.display='block';
+      let appMain=document.getElementById('appMain'); if(appMain) appMain.classList.remove('hidden');
+      let msg=document.getElementById('authMsg'); if(msg) msg.innerText='Masih menghubungkan? Klik ini: Bersihkan Cache & Reload';
+      if(!document.getElementById('btnClearCache')){
+        let btn=document.createElement('button'); btn.id='btnClearCache'; btn.className='btn'; btn.innerText='Bersihkan Cache & Reload'; btn.style.marginTop='10px'; btn.onclick=()=>{ localStorage.clear(); sessionStorage.clear(); location.reload(true); };
+        authBox.appendChild(btn);
+      }
+    }
+  }catch(e){}
+}, 5000);
+</script>
+</body></html>
